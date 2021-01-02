@@ -21,7 +21,7 @@ TreeMeshBuilder::TreeMeshBuilder(unsigned gridEdgeSize)
 }
 unsigned TreeMeshBuilder::handleNode(const ParametricScalarField &field, const Vec3_t<float> &nodePosition, const unsigned &nodeEdgeSize)
 {
-  if (nodeEdgeSize <= mCutOff)
+  if (nodeEdgeSize <= 1)
     return buildCube(nodePosition, field);
 
   auto halfEdge = nodeEdgeSize / 2;
@@ -49,9 +49,16 @@ unsigned TreeMeshBuilder::handleNode(const ParametricScalarField &field, const V
 
   unsigned childrenSums[8] = {0};
 
-  for (size_t i = 0; i < 8; i++) {
-    #pragma omp task shared(childrenSums)
-    childrenSums[i] += handleNode(field, childNodes[i], halfEdge);
+  if (nodeEdgeSize > mCutOff) {
+    for (size_t i = 0; i < 8; i++) {
+      #pragma omp task shared(childrenSums)
+      childrenSums[i] += handleNode(field, childNodes[i], halfEdge);
+    }
+  }
+  else {
+    for (size_t i = 0; i < 8; i++) {
+      childrenSums[i] += handleNode(field, childNodes[i], halfEdge);
+    }
   }
   #pragma omp taskwait
 
