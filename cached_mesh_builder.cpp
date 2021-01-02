@@ -66,9 +66,9 @@ unsigned CachedMeshBuilder::marchCubes(const ParametricScalarField &field)
 
 float CachedMeshBuilder::evaluateFieldAt(const Vec3_t<float> &pos, const ParametricScalarField &field)
 {
-  unsigned x = std::floor(pos.x/mGridResolution + 1/2);
-  unsigned y = std::floor(pos.y/mGridResolution + 1/2);
-  unsigned z = std::floor(pos.z/mGridResolution + 1/2);
+  unsigned x = std::floor(pos.x/mGridResolution + 1/2.0);
+  unsigned y = std::floor(pos.y/mGridResolution + 1/2.0);
+  unsigned z = std::floor(pos.z/mGridResolution + 1/2.0);
   return mFieldDistances[x*(mGridSize+1)*(mGridSize+1) + y*(mGridSize+1) + z];
 }
 
