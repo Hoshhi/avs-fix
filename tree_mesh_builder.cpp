@@ -17,7 +17,7 @@
 TreeMeshBuilder::TreeMeshBuilder(unsigned gridEdgeSize)
     : BaseMeshBuilder(gridEdgeSize, "Octree")
 {
-  mCutOff = 3;
+  mCutOff = 1;
 }
 unsigned TreeMeshBuilder::handleNode(const ParametricScalarField &field, const Vec3_t<float> &nodePosition, const unsigned &nodeEdgeSize)
 {
